@@ -25,6 +25,8 @@ public class Device {
     private Integer port;
     private String status;
 
+    private Integer volume = 50; // 🔹 Default value for volume set to 50
+
     // Getters and Setters
 
     public Long getId() {
@@ -73,5 +75,13 @@ public class Device {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Integer getVolume() {
+        return volume;
+    }
+
+    public void setVolume(Integer volume) {
+        this.volume = volume;
     }
 }

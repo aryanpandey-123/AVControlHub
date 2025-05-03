@@ -33,4 +33,51 @@ public class DeviceService {
     public void deleteDevice(Long id) {
         deviceRepository.deleteById(id);
     }
+
+    // --- Step 13: Control Logic Methods ---
+
+    public Device togglePower(Long id) {
+        Device device = deviceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Device not found with id: " + id));
+        String currentStatus = device.getStatus();
+        device.setStatus("on".equalsIgnoreCase(currentStatus) ? "off" : "on");
+        return deviceRepository.save(device);
+    }
+
+    public Device volumeUp(Long id) {
+        Device device = deviceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Device not found with id: " + id));
+
+        // If volume is null, set it to a default value (e.g., 50)
+        Integer currentVolume = device.getVolume();
+        if (currentVolume == null) {
+            currentVolume = 50; // Default volume
+        }
+
+        // Increase volume by 10 but ensure it doesn't exceed 100
+        device.setVolume(Math.min(currentVolume + 10, 100)); // Max volume 100
+        return deviceRepository.save(device);
+    }
+
+    public Device volumeDown(Long id) {
+        Device device = deviceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Device not found with id: " + id));
+
+        // If volume is null, set it to a default value (e.g., 50)
+        Integer currentVolume = device.getVolume();
+        if (currentVolume == null) {
+            currentVolume = 50; // Default volume
+        }
+
+        // Decrease volume by 10 but ensure it doesn't go below 0
+        device.setVolume(Math.max(currentVolume - 10, 0)); // Min volume 0
+        return deviceRepository.save(device);
+    }
+
+    public Device mute(Long id) {
+        Device device = deviceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Device not found with id: " + id));
+        device.setVolume(0); // Set volume to 0 for mute
+        return deviceRepository.save(device);
+    }
 }

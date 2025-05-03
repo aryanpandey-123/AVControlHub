@@ -53,4 +53,30 @@ public class DeviceController {
         deviceService.deleteDevice(id);
         return ResponseEntity.noContent().build();
     }
+
+    // --- Step 13: Control Endpoints ---
+
+    // PUT: Toggle power (on/off)
+    @PutMapping("/{id}/power")
+    public ResponseEntity<Device> togglePower(@PathVariable Long id) {
+        return ResponseEntity.ok(deviceService.togglePower(id));
+    }
+
+    // PUT: Volume Up
+    @PutMapping("/{id}/volume/up")
+    public ResponseEntity<Device> volumeUp(@PathVariable Long id) {
+        return ResponseEntity.ok(deviceService.volumeUp(id));
+    }
+
+    // PUT: Volume Down
+    @PutMapping("/{id}/volume/down")
+    public ResponseEntity<Device> volumeDown(@PathVariable Long id) {
+        return ResponseEntity.ok(deviceService.volumeDown(id));
+    }
+
+    // PUT: Mute device
+    @PutMapping("/{id}/mute")
+    public ResponseEntity<Device> mute(@PathVariable Long id) {
+        return ResponseEntity.ok(deviceService.mute(id));
+    }
 }
