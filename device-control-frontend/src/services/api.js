@@ -1,5 +1,10 @@
 import axios from 'axios';
 
+export const togglePower = (id) => axios.put(`${BASE_URL}/${id}/power`);
+export const volumeUp = (id) => axios.put(`${BASE_URL}/${id}/volume/up`);
+export const volumeDown = (id) => axios.put(`${BASE_URL}/${id}/volume/down`);
+export const muteDevice = (id) => axios.put(`${BASE_URL}/${id}/mute`);
+
 const BASE_URL = 'http://localhost:8080/api/devices';
 
 // Get all devices
