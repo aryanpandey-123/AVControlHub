@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import DeviceList from './components/DeviceList';
+import DeviceForm from './components/DeviceForm';
 
 function App() {
+  const [selectedDevice, setSelectedDevice] = useState(null);
+  const [refreshFlag, setRefreshFlag] = useState(false);
+
+  const handleEdit = (device) => {
+    setSelectedDevice(device);
+  };
+
+  const handleSuccess = () => {
+    setSelectedDevice(null);
+    setRefreshFlag(!refreshFlag); // toggle to refresh list
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
+      <h1>Device Control Dashboard</h1>
+      <DeviceForm selectedDevice={selectedDevice} onSuccess={handleSuccess} />
+      <hr />
+      <DeviceList onEdit={handleEdit} key={refreshFlag} />
     </div>
   );
 }
