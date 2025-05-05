@@ -72,39 +72,74 @@ const DeviceList = ({ onEdit }) => {
   };
 
   return (
-    <div>
-      <h2>Device List</h2>
-      <table border="1" cellPadding="10" style={{ width: '100%', textAlign: 'left' }}>
+    <div className="bg-white p-6 rounded-2xl shadow-md">
+      <h2 className="text-xl font-semibold mb-4">Device List</h2>
+      <table className="min-w-full bg-gray-50 border border-gray-200 rounded-lg">
         <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>IP Address</th>
-            <th>Port</th>
-            <th>Status</th>
-            <th>Actions</th>
+          <tr className="bg-blue-600 text-white">
+            <th className="py-2 px-4">ID</th>
+            <th className="py-2 px-4">Name</th>
+            <th className="py-2 px-4">Type</th>
+            <th className="py-2 px-4">IP Address</th>
+            <th className="py-2 px-4">Port</th>
+            <th className="py-2 px-4">Status</th>
+            <th className="py-2 px-4">Actions</th>
           </tr>
         </thead>
         <tbody>
           {devices.map((device) => (
-            <tr key={device.id}>
-              <td>{device.id}</td>
-              <td>{device.name}</td>
-              <td>{device.type}</td>
-              <td>{device.ipAddress}</td>
-              <td>{device.port}</td>
-              <td>{device.status}</td>
-              <td>
-                <button onClick={() => onEdit(device)}>Edit</button>
-                <button onClick={() => handleDelete(device.id)}>Delete</button>
-                <div style={{ marginTop: '5px' }}>
-                  <button onClick={() => handlePower(device.id)}>Power</button>
+            <tr
+              key={device.id}
+              className={`${
+                device.status === 'ON' ? 'bg-green-100' : 'bg-red-100'
+              } hover:bg-gray-100`}
+            >
+              <td className="py-2 px-4">{device.id}</td>
+              <td className="py-2 px-4">{device.name}</td>
+              <td className="py-2 px-4">{device.type}</td>
+              <td className="py-2 px-4">{device.ipAddress}</td>
+              <td className="py-2 px-4">{device.port}</td>
+              <td className="py-2 px-4">{device.status}</td>
+              <td className="py-2 px-4 space-x-2">
+                <button
+                  onClick={() => onEdit(device)}
+                  className="px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full hover:from-blue-600 hover:to-blue-800 transition"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(device.id)}
+                  className="px-5 py-2 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-full hover:from-red-600 hover:to-red-800 transition"
+                >
+                  Delete
+                </button>
+                <div className="mt-2 space-x-2">
+                  <button
+                    onClick={() => handlePower(device.id)}
+                    className="px-5 py-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white rounded-full hover:from-yellow-500 hover:to-yellow-700 transition"
+                  >
+                    Power
+                  </button>
                   {(device.type === 'MICROPHONE' || device.type === 'SPEAKER') && (
                     <>
-                      <button onClick={() => handleVolumeUp(device.id)}>Vol +</button>
-                      <button onClick={() => handleVolumeDown(device.id)}>Vol -</button>
-                      <button onClick={() => handleMute(device.id)}>Mute</button>
+                      <button
+                        onClick={() => handleVolumeUp(device.id)}
+                        className="px-5 py-2 bg-gradient-to-r from-green-400 to-green-600 text-white rounded-full hover:from-green-500 hover:to-green-700 transition"
+                      >
+                        Vol +
+                      </button>
+                      <button
+                        onClick={() => handleVolumeDown(device.id)}
+                        className="px-5 py-2 bg-gradient-to-r from-red-400 to-red-600 text-white rounded-full hover:from-red-500 hover:to-red-700 transition"
+                      >
+                        Vol -
+                      </button>
+                      <button
+                        onClick={() => handleMute(device.id)}
+                        className="px-5 py-2 bg-gradient-to-r from-gray-400 to-gray-600 text-white rounded-full hover:from-gray-500 hover:to-gray-700 transition"
+                      >
+                        Mute
+                      </button>
                     </>
                   )}
                 </div>
