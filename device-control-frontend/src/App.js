@@ -1,26 +1,30 @@
 import React, { useState } from 'react';
-import DeviceList from './components/DeviceList';
 import DeviceForm from './components/DeviceForm';
+import DeviceList from './components/DeviceList';
 
 function App() {
-  const [selectedDevice, setSelectedDevice] = useState(null);
-  const [refreshFlag, setRefreshFlag] = useState(false);
-
-  const handleEdit = (device) => {
-    setSelectedDevice(device);
-  };
-
-  const handleSuccess = () => {
-    setSelectedDevice(null);
-    setRefreshFlag(!refreshFlag); // toggle to refresh list
-  };
+  const [editingDevice, setEditingDevice] = useState(null);
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
-      <h1>Device Control Dashboard</h1>
-      <DeviceForm selectedDevice={selectedDevice} onSuccess={handleSuccess} />
-      <hr />
-      <DeviceList onEdit={handleEdit} key={refreshFlag} />
+    <div className="min-h-screen bg-gray-100 text-gray-800">
+      <header className="bg-blue-600 text-white py-4 shadow-md">
+        <div className="max-w-5xl mx-auto px-4">
+          <h1 className="text-2xl font-bold">Device Control Panel</h1>
+          <p className="text-sm">Manage your PTZ Cameras, Speakers, Microphones, and Displays</p>
+        </div>
+      </header>
+
+      <main className="max-w-5xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section className="bg-white p-6 rounded-2xl shadow">
+          <h2 className="text-xl font-semibold mb-4">{editingDevice ? 'Edit Device' : 'Add Device'}</h2>
+          <DeviceForm editingDevice={editingDevice} setEditingDevice={setEditingDevice} />
+        </section>
+
+        <section className="bg-white p-6 rounded-2xl shadow md:col-span-1">
+          <h2 className="text-xl font-semibold mb-4">Device List</h2>
+          <DeviceList onEdit={setEditingDevice} />
+        </section>
+      </main>
     </div>
   );
 }
