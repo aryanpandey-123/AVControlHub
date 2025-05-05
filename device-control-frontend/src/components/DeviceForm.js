@@ -41,9 +41,12 @@ const DeviceForm = ({ selectedDevice, onSuccess }) => {
   };
 
   return (
-    <div>
-      <h2>{device.id ? 'Edit Device' : 'Add New Device'}</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+      <h2 className="text-xl font-semibold mb-4">
+        {device.id ? 'Edit Device' : 'Add New Device'}
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+
         <input
           type="text"
           name="name"
@@ -51,13 +54,21 @@ const DeviceForm = ({ selectedDevice, onSuccess }) => {
           onChange={handleChange}
           placeholder="Device Name"
           required
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <select name="type" value={device.type} onChange={handleChange}>
+
+        <select
+          name="type"
+          value={device.type}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
           <option value="CAMERA">CAMERA</option>
           <option value="MICROPHONE">MICROPHONE</option>
           <option value="SPEAKER">SPEAKER</option>
           <option value="DISPLAY">DISPLAY</option>
         </select>
+
         <input
           type="text"
           name="ipAddress"
@@ -65,7 +76,9 @@ const DeviceForm = ({ selectedDevice, onSuccess }) => {
           onChange={handleChange}
           placeholder="IP Address"
           required
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+
         <input
           type="number"
           name="port"
@@ -73,12 +86,25 @@ const DeviceForm = ({ selectedDevice, onSuccess }) => {
           onChange={handleChange}
           placeholder="Port"
           required
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <select name="status" value={device.status} onChange={handleChange}>
+
+        <select
+          name="status"
+          value={device.status}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
           <option value="ON">ON</option>
           <option value="OFF">OFF</option>
         </select>
-        <button type="submit">{device.id ? 'Update' : 'Create'}</button>
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
+        >
+          {device.id ? 'Update' : 'Create'}
+        </button>
       </form>
     </div>
   );
