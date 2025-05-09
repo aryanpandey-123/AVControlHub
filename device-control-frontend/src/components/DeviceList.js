@@ -5,8 +5,9 @@ import {
   togglePower,
   volumeUp,
   volumeDown,
-  muteDevice
+  muteDevice,
 } from '../services/api';
+import { toast } from 'react-toastify';
 
 const DeviceList = ({ onEdit }) => {
   const [devices, setDevices] = useState([]);
@@ -20,6 +21,7 @@ const DeviceList = ({ onEdit }) => {
       const response = await getDevices();
       setDevices(response.data);
     } catch (error) {
+      toast.error('Failed to fetch devices');
       console.error('Error fetching devices:', error);
     }
   };
@@ -28,8 +30,10 @@ const DeviceList = ({ onEdit }) => {
     if (window.confirm('Are you sure you want to delete this device?')) {
       try {
         await deleteDevice(id);
+        toast.success('Device deleted successfully');
         fetchDevices();
       } catch (error) {
+        toast.error('Error deleting device');
         console.error('Error deleting device:', error);
       }
     }
@@ -38,8 +42,10 @@ const DeviceList = ({ onEdit }) => {
   const handlePower = async (id) => {
     try {
       await togglePower(id);
+      toast.success('Power toggled');
       fetchDevices();
     } catch (err) {
+      toast.error('Error toggling power');
       console.error('Error toggling power:', err);
     }
   };
@@ -47,8 +53,10 @@ const DeviceList = ({ onEdit }) => {
   const handleVolumeUp = async (id) => {
     try {
       await volumeUp(id);
+      toast.success('Volume increased');
       fetchDevices();
     } catch (err) {
+      toast.error('Error increasing volume');
       console.error('Error increasing volume:', err);
     }
   };
@@ -56,8 +64,10 @@ const DeviceList = ({ onEdit }) => {
   const handleVolumeDown = async (id) => {
     try {
       await volumeDown(id);
+      toast.success('Volume decreased');
       fetchDevices();
     } catch (err) {
+      toast.error('Error decreasing volume');
       console.error('Error decreasing volume:', err);
     }
   };
@@ -65,8 +75,10 @@ const DeviceList = ({ onEdit }) => {
   const handleMute = async (id) => {
     try {
       await muteDevice(id);
+      toast.success('Device muted');
       fetchDevices();
     } catch (err) {
+      toast.error('Error muting device');
       console.error('Error muting device:', err);
     }
   };
@@ -100,49 +112,47 @@ const DeviceList = ({ onEdit }) => {
               <td className="py-2 px-4">{device.ipAddress}</td>
               <td className="py-2 px-4">{device.port}</td>
               <td className="py-2 px-4">{device.status}</td>
-              <td className="py-2 px-4 space-x-2">
+              <td className="py-2 px-4 space-y-2">
                 <button
                   onClick={() => onEdit(device)}
-                  className="px-5 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full hover:from-blue-600 hover:to-blue-800 transition"
+                  className="w-full mb-1 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(device.id)}
-                  className="px-5 py-2 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-full hover:from-red-600 hover:to-red-800 transition"
+                  className="w-full mb-1 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
                 >
                   Delete
                 </button>
-                <div className="mt-2 space-x-2">
-                  <button
-                    onClick={() => handlePower(device.id)}
-                    className="px-5 py-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white rounded-full hover:from-yellow-500 hover:to-yellow-700 transition"
-                  >
-                    Power
-                  </button>
-                  {(device.type === 'MICROPHONE' || device.type === 'SPEAKER') && (
-                    <>
-                      <button
-                        onClick={() => handleVolumeUp(device.id)}
-                        className="px-5 py-2 bg-gradient-to-r from-green-400 to-green-600 text-white rounded-full hover:from-green-500 hover:to-green-700 transition"
-                      >
-                        Vol +
-                      </button>
-                      <button
-                        onClick={() => handleVolumeDown(device.id)}
-                        className="px-5 py-2 bg-gradient-to-r from-red-400 to-red-600 text-white rounded-full hover:from-red-500 hover:to-red-700 transition"
-                      >
-                        Vol -
-                      </button>
-                      <button
-                        onClick={() => handleMute(device.id)}
-                        className="px-5 py-2 bg-gradient-to-r from-gray-400 to-gray-600 text-white rounded-full hover:from-gray-500 hover:to-gray-700 transition"
-                      >
-                        Mute
-                      </button>
-                    </>
-                  )}
-                </div>
+                <button
+                  onClick={() => handlePower(device.id)}
+                  className="w-full mb-1 px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                >
+                  Power
+                </button>
+                {(device.type === 'MICROPHONE' || device.type === 'SPEAKER') && (
+                  <div className="space-y-1">
+                    <button
+                      onClick={() => handleVolumeUp(device.id)}
+                      className="w-full px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+                    >
+                      Vol +
+                    </button>
+                    <button
+                      onClick={() => handleVolumeDown(device.id)}
+                      className="w-full px-3 py-1 bg-red-400 text-white rounded hover:bg-red-500"
+                    >
+                      Vol -
+                    </button>
+                    <button
+                      onClick={() => handleMute(device.id)}
+                      className="w-full px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
+                    >
+                      Mute
+                    </button>
+                  </div>
+                )}
               </td>
             </tr>
           ))}
