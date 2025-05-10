@@ -33,6 +33,26 @@ public class DeviceService {
     public void deleteDevice(Long id) {
         deviceRepository.deleteById(id);
     }
+    //Create device 
+    public Device createDevice(Device device)
+    {
+        return deviceRepository.save(device);
+    }
+
+    // Update Device
+    // @Override
+    public Device updateDevice(Long id, Device updatedDevice) {
+        Device existingDevice = deviceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Device not found with id: " + id));
+
+        existingDevice.setName(updatedDevice.getName());
+        existingDevice.setType(updatedDevice.getType());
+        existingDevice.setIpAddress(updatedDevice.getIpAddress());
+        existingDevice.setPort(updatedDevice.getPort());
+        existingDevice.setStatus(updatedDevice.getStatus());
+
+        return deviceRepository.save(existingDevice);
+    }
 
     // --- Step 13: Control Logic Methods ---
 

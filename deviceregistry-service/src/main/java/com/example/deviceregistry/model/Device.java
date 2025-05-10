@@ -1,12 +1,7 @@
 package com.example.deviceregistry.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "devices")
@@ -16,16 +11,30 @@ public class Device {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Device name is required")
     private String name;
 
+    @NotNull(message = "Device type is required")
     @Enumerated(EnumType.STRING)
     private DeviceType type;
 
+    @NotBlank(message = "IP Address is required")
+    @Pattern(
+        regexp = "^((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)(\\.|$)){4}$",
+        message = "Invalid IP address format"
+    )
     private String ipAddress;
+
+    @NotNull(message = "Port is required")
+    @Min(value = 1, message = "Port must be greater than 0")
+    @Max(value = 65535, message = "Port must be less than 65536")
     private Integer port;
+
     private String status;
 
-    private Integer volume = 50; // 🔹 Default value for volume set to 50
+    @Min(value = 0, message = "Volume cannot be less than 0")
+    @Max(value = 100, message = "Volume cannot exceed 100")
+    private Integer volume = 50; // 🔹 Default value
 
     // Getters and Setters
 

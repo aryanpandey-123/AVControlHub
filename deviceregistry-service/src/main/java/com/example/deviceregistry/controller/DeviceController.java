@@ -2,7 +2,11 @@ package com.example.deviceregistry.controller;
 
 import com.example.deviceregistry.model.Device;
 import com.example.deviceregistry.service.DeviceService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,19 +36,16 @@ public class DeviceController {
 
     // POST: Create a new device
     @PostMapping
-    public ResponseEntity<Device> createDevice(@RequestBody Device device) {
-        return ResponseEntity.ok(deviceService.saveDevice(device));
+    public ResponseEntity<?> createDevice(@Valid @RequestBody Device device) {
+        Device savedDevice = deviceService.createDevice(device);
+        return new ResponseEntity<>(savedDevice,HttpStatus.CREATED);
     }
 
     // PUT: Update an existing device
     @PutMapping("/{id}")
-    public ResponseEntity<Device> updateDevice(@PathVariable Long id, @RequestBody Device updatedDevice) {
-        return deviceService.getDeviceById(id)
-                .map(existing -> {
-                    updatedDevice.setId(id);
-                    return ResponseEntity.ok(deviceService.saveDevice(updatedDevice));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> updateDevice(@PathVariable Long id, @Valid @RequestBody Device device) {
+        Device updateDevice = deviceService.updateDevice(id, device);
+        return ResponseEntity.ok(updateDevice);
     }
 
     // DELETE: Delete device by ID
