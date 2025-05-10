@@ -1,5 +1,6 @@
 package com.example.deviceregistry.service;
 
+import com.example.deviceregistry.ResourceNotFoundException;
 import com.example.deviceregistry.model.Device;
 import com.example.deviceregistry.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,15 @@ public class DeviceService {
 
     // Get a device by ID
     public Optional<Device> getDeviceById(Long id) {
-        return deviceRepository.findById(id);
+        return Optional.of(deviceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Device not found with ID: " + id)));
     }
 
     // Delete a device by ID
     public void deleteDevice(Long id) {
-        deviceRepository.deleteById(id);
+        Device device = deviceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Device not found with ID: " + id));
+        deviceRepository.delete(device);
     }
     //Create device 
     public Device createDevice(Device device)

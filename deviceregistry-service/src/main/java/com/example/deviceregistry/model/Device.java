@@ -93,4 +93,8 @@ public class Device {
     public void setVolume(Integer volume) {
         this.volume = volume;
     }
+
+    public Object map(Object object) {
+        throw new UnsupportedOperationException("Unimplemented method 'map'");
+    }
 }
